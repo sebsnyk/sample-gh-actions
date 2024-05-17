@@ -30,9 +30,14 @@ jobs:
     # Authenticate the Snyk instance
     - run: snyk auth ${{ secrets.SNYK_TOKEN }}
 
-    # Perform a monitor. This will NOT cause failures.
-    - name: Snyk Open Source Scan
-      run: snyk monitor --org=${{ secrets.SNYK_ORG }}
+    # Disabled this step, as it was done once and we need to keep the snyk-delta functionality working.
+    # # Perform a monitor. This will NOT cause failures.
+    # - name: Snyk Open Source Scan
+    #   run: snyk monitor --org=${{ secrets.SNYK_ORG }}
+    #   continue-on-error: true
+
+    - name: Snyk Open Source scan, with a delta scan
+      run: snyk test --json | snyk-delta --baselineOrg ${{ secrets.SNYK_ORG }} --baselineProject ${{ secrets.SNYK_DELTA_BASELINE_PROJECT }}
       continue-on-error: true
 
     # Perform a simple test and apply snyk-filter
