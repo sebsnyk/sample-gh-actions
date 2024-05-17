@@ -32,12 +32,19 @@ jobs:
     - run: snyk auth ${{ secrets.SNYK_TOKEN }}
 
     - name: Snyk Open Source Scanning
-      run: snyk test --org=${{ secrets.SNYK_ORG }} --all-projects --sarif-file-output=snyk-oss.sarif
+      run: snyk monitor --org=${{ secrets.SNYK_ORG }}
       continue-on-error: true
-    - name: Upload results to GitHub Open Source Scanning
-      uses: github/codeql-action/upload-sarif@v2
-      with:
-        sarif_file: snyk-oss.sarif
+
+
+    - name: Snyk Code Scanning
+      run: snyk code test --org=${{ secrets.SNYK_ORG }}
+      continue-on-error: true
+
+
+    # - name: Upload results to GitHub Open Source Scanning
+    #   uses: github/codeql-action/upload-sarif@v2
+    #   with:
+    #     sarif_file: snyk-oss.sarif
 
     # - name: Snyk Code Scanning
     #   run: snyk code test --org=${{ secrets.SNYK_ORG }} --sarif-file-output=snyk-code.sarif
