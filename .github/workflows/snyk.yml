@@ -22,8 +22,10 @@ jobs:
       with:
         node-version: 18.4
 
+    - run: apt-install jq
+
     # Install & prepare Snyk
-    - run: npm install --location=global snyk
+    - run: npm install --location=global snyk snyk-filter
     
     #  This OPTIONAL step will configure the Snyk CLI to connect to the EU instance of Snyk
     #- run: snyk config set use-base64-encoding=true
@@ -36,9 +38,9 @@ jobs:
       continue-on-error: true
 
 
-    - name: Snyk Code Scanning
-      run: snyk code test --org=${{ secrets.SNYK_ORG }}
-      continue-on-error: true
+    # - name: Snyk Code Scanning
+    #   run: snyk code test --org=${{ secrets.SNYK_ORG }}
+    #   continue-on-error: true
 
 
     # - name: Upload results to GitHub Open Source Scanning
