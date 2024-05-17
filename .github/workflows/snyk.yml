@@ -15,14 +15,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@latest
 
     - name: Use Node.js for installing Snyk 
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@latest
       with:
         node-version: 18.4
 
-    - run: apt-install jq
+    - run: apt install jq
 
     # Install & prepare Snyk
     - run: npm install --location=global snyk snyk-filter
